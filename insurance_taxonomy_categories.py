@@ -116,6 +116,6 @@ df.drop(columns=['lemmatized_name'], inplace=True)
 
 print(df['insurance_category'])
 
-output_file_path = '/content/drive/MyDrive/Colab Notebooks/Veridion challenge/labels.csv'
+output_file_path = '/content/drive/MyDrive/Colab Notebooks/Veridion challenge/clusterized_labels.csv'
 df.to_csv(output_file_path, index=False)
 print(f"File saved to {output_file_path}")
