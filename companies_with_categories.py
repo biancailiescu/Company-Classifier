@@ -13,6 +13,9 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 import nltk
+import torch
+from sentence_transformers import SentenceTransformer
+from sklearn.preprocessing import StandardScaler
 
 nltk.download('stopwords')
 nltk.download('punkt_tab')
@@ -41,20 +44,6 @@ num_clusters = 41
 kmeans = KMeans(n_clusters=num_clusters, random_state=42)
 df["cluster"] = kmeans.fit_predict(X)
 
-!pip install --upgrade torch sentence-transformers
-
-import torch
-from sentence_transformers import SentenceTransformer
-
-from sklearn.cluster import KMeans
-num_clusters = 40
-
-model = SentenceTransformer('all-MiniLM-L6-v2')
-
-embeddings = model.encode(df["processed_description"])
-
-kmeans = KMeans(n_clusters=num_clusters, random_state=42)
-df["cluster"] = kmeans.fit_predict(embeddings)
 
 for cluster_id in range(num_clusters):
     cluster_data = df[df['cluster'] == cluster_id]
@@ -72,7 +61,6 @@ davies_bouldin_avg = davies_bouldin_score(X_dense, df['cluster'])
 print(f"Silhouette Score: {silhouette_avg:.2f}")
 print(f"Davies-Bouldin Score: {davies_bouldin_avg:.2f}")
 
-from sklearn.preprocessing import StandardScaler
 
 model = SentenceTransformer('all-MiniLM-L6-v2')
 
